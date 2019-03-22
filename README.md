@@ -1,2 +1,2 @@
 # Asteroid
-Projet Asteroid, Python
+Projet Asteroid, Python + Website
