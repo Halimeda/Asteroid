@@ -1,7 +1,4 @@
 game/__pycache__/
-game/assets/
 game/build/
 game/dist/
 *.dll
-website/Gallery/
-website/icones/
