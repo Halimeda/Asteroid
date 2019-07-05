@@ -20,8 +20,7 @@ class AsteroidGame(Game):
 
 class Title(Layer):
     def __init__(self):
-        super().__init__()
-    #self.start_music =Sound("") #Create and ad start music
+        super().__init__() #self.start_music =Sound("") #Create and ad start music
         self.text = Sprite("assets/title.png")
         self.add(self.text)
 
@@ -39,18 +38,17 @@ class GUI(Layer):
         self.spaceship = spaceship
         self.lives = []
 
-    def draw_life(self):
+    def draw_life(self):      #add live during the game
 
-        position_initial = (795, 565)
+        position_initial = (795, 565) #Adaptable position
 
-        for i in range(self.spaceship.lives):
+        for i in range(self.spaceship.lives): 
             image_path = "assets/life.png"
-            position = (position_initial[0] - (i * (16 + 5)), position_initial[1])
+            position = (position_initial[0] - (i * (16 + 5)), position_initial[1]) #Adaptable position
             life = Sprite(image_path, position, anchor = (16, 16))
             self.lives.append(life)
             self.add(life)
     
-    #add live during the game
 
     def update(self, dt):
         super().update(dt)
@@ -95,15 +93,15 @@ class SpaceObject(Sprite):
         move_y = self.speed[1] * dt
         self.position = (self.position[0] + move_x, self.position[1] + move_y)
 
-        if (self.position[0] > 800):
-            self.position = (0, (self.position[1]))
-        elif (self.position[0] < 0):
-            self.position = (800, (self.position[1]))
+        if (self.position[0] > 800): #Adaptable position
+            self.position = (0, (self.position[1])) #Adaptable position
+        elif (self.position[0] < 0): #Adaptable position
+            self.position = (800, (self.position[1])) #Adaptable position
 
-        if (self.position[1] > 600):
-            self.position = ((self.position[0]), 0)
-        elif (self.position[1] < 0):
-            self.position = ((self.position[0]), 600)
+        if (self.position[1] > 600): #Adaptable position
+            self.position = ((self.position[0]), 0) #Adaptable position
+        elif (self.position[1] < 0): #Adaptable position
+            self.position = ((self.position[0]), 600) #Adaptable position
 
         self.rotation += self.rotation_speed * dt
         
@@ -143,15 +141,18 @@ class Life(SpaceObject):
             self.destroy()
         super().update(dt)
 
-#class Flame(SpaceObject):
-    #Add flame when spaceship accelerate
-    #def __init__(self, ship_position, ship_speed, ship_rotation):
-        #image_path = "assets/flame.png"
-        #super().__init__(image_path, position=ship_position, speed=ship_speed, rotation=ship_rotation, anchor=(2.5, 6))
+class Flame(SpaceObject):
+    #Add flame on KeyPress up
+    def __init__(self, ship_position, ship_speed, ship_rotation):
+        image_path = "assets/flame.png"
+        position = (0, 0)
+        position
+        super().__init__(image_path, position=ship_position, speed=ship_speed, rotation_speed=ship_rotation, anchor=(2.5, 6))
 
 class SpaceShip(SpaceObject):
     def __init__(self, position):
         image_path = "assets/Nexus.png"
+        self.flame = False
         self.engine_on = False
         self.lives = 5
         self.invincibility_time = 3
@@ -212,6 +213,10 @@ class SpaceShip(SpaceObject):
         else:
             self.opacity = 255
 
+        if self.flame == True:
+            self.flamedraw = Flame(self.position, self.speed, self.rotation)
+            self.layer.add(self.flamedraw)
+
         self.timer_asteroid += dt
         self.timer_life += dt
         self.add_asteroid()
@@ -242,7 +247,7 @@ class SpaceShip(SpaceObject):
                     bullet = Bullet(self.position, speed)
                     self.layer.add(bullet)
                 self.invincible = self.invincibility_time
-            else:
+            else: #Add restart button + high score
                 self.dead_sound.play()
                 super().destroy()
 
@@ -255,8 +260,7 @@ class SpaceShip(SpaceObject):
         if symbol_string(key) == "UP" or symbol_string(key) == "Z":
             self.engine_on = True
             self.engine_back = False
-            #self.flame = Flame(self.position, self.speed, self.rotation)
-            #self.layer.add(self.flame)
+            self.flame = True
 
 
         elif symbol_string(key) == "DOWN" or symbol_string(key) == "S": 
@@ -276,7 +280,8 @@ class SpaceShip(SpaceObject):
         if symbol_string(key) == "UP" or symbol_string(key) == "Z":
             self.engine_on = False
             self.engine_back = False
-            #self.flame.destroy()
+            self.flame = False
+            self.flamedraw.destroy()
 
         elif symbol_string(key) == "DOWN" or symbol_string(key) == "S":
             self.engine_on = False
@@ -289,7 +294,7 @@ class SpaceShip(SpaceObject):
 
 class Asteroid(SpaceObject):
 
-    def __init__(self, position=(randint(0,800),randint(0,600)), speed = (randint(-100,100), randint(-100,100)), category = 3):
+    def __init__(self, position=(randint(0,800),randint(0,600)), speed = (randint(-100,100), randint(-100,100)), category = 3): #Adaptable position
 
         self.explosion_sound = pyglet.media.load("assets/Explosion.wav", streaming=False)
         self.time_count = 0
