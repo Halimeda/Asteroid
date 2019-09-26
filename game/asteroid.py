@@ -151,7 +151,7 @@ class Flame(SpaceObject):
 
 class SpaceShip(SpaceObject):
     def __init__(self, position):
-        image_path = "assets/Nexus.png"
+        image_path = "assets/spaceship.png"
         self.flame = False
         self.engine_on = False
         self.lives = 5

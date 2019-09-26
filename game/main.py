@@ -6,7 +6,7 @@ import pyglet
 #Add victory condition ? And Level ?
 
 resolution = (800,600)  #Adaptable Size
-init(resolution, "Nexus VI : The Asteroid Game")
+init(resolution, "The Asteroid Game")
 
 game = AsteroidGame()
 background_layer = Layer()
